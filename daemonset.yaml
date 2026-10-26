@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: node-monitor-ds
+  namespace: monitoring
+  labels:
+    app: node-monitor
+spec:
+  selector:
+    matchLabels:
+      app: node-monitor
+  updateStrategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: node-monitor
+    spec:
+      containers:
+        - name: monitor-agent
+          image: busybox:1.35
+          command: ["sh", "-c", "while true; do echo 'Collecting node metrics...'; sleep 30; done"]
